@@ -5,10 +5,11 @@ This repository contains the jupyter notebook and code that created my blog post
 
 ## Installation
 
-This project utilizes the [seripapi](https://github.com/serpapi/google-search-results-python) to query the google career search API. Register a google account to get your secret API then create a config.yaml file and set a variable for your secret api key.
+This project utilizes the [seripapi](https://github.com/serpapi/google-search-results-python) to query the google career search API. Register a google account to get your secret API create a `SERIPAPI_KEY` env variable in you `.zprofile` or `bash_src`
 
 ```
-echo "api_key: '[YOUR SECRET API KEY]'" >> config.yaml
+echo SERIPAPI_KEY=[YOUR SECRET API KEY]'" >> ~/.zprofile
+source ~/.zprofile
 ```
 
 Clone this repository and install [poetry](https://python-poetry.org/) on your machine. Then install this repo's Python packages and create a new virtual environment.
