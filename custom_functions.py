@@ -1,6 +1,5 @@
 from serpapi import GoogleSearch
 import pandas as pd
-import plotly.graph_objects as go
 
 def query_google_jobs(q, location, api_key, engine, chips, n_search):
     combined_queries = []
