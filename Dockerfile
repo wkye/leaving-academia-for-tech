@@ -18,7 +18,7 @@ WORKDIR /leaving-academia-for-tech
 COPY . .
 
 # Project initialization:
-RUN POETRY_VIRTUALENVS_CREATE=false && poetry install --no-root
+RUN POETRY_VIRTUALENVS_CREATE=false && poetry install
 
 # Creating folders, and files for a project:
 COPY . /code

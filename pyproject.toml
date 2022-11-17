@@ -4,11 +4,19 @@ version = "0.1.0"
 description = ""
 authors = ["willie"]
 readme = "README.md"
-packages = [{include = "leaving_academia_for_tech"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+jupyter = "^1.0.0"
+jupyterlab = "^3.5.0"
+pandas = "^1.5.1"
+numpy = "^1.23.4"
+google-search-results = {git = "git@github.com:wkye/google-search-results-python.git"}
+loguru = "^0.6.0"
 
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.17.1"
 
 [build-system]
 requires = ["poetry-core"]

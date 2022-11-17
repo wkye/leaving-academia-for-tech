@@ -1,1 +1,1 @@
-# from resources import google_query
+from src.resources import google_query
