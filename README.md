@@ -32,3 +32,9 @@ df = google_jobs.query(q = 'data scientist', # Search term you want to query
                        # ,start = 0 # pagination
                   )              
 ```
+
+convert notebook to blog
+
+```
+python -m nbconvert notebooks/2022-10-06-Getting\ Out\ of\ Academia\ and\ into\ Tech\ Without\ a\ Hard\ Sciences\ Degree.ipynb --to hugo --output-dir content/blog/2022-10-06-Getting\ Out\ of\ Academia\ and\ Into\ Tech\ Without\ a\ Hard\ Sciences\ Degree
+```

@@ -1,12 +1,9 @@
-import copy
-import inspect
-import os
 import time
 
 import pandas as pd
 from loguru import logger
 from serpapi import GoogleSearch
-from src.resources.constants import SERP_API_KEY, ENGINE, START
+from src.constants import SERP_API_KEY, ENGINE, START
 
 class GoogleResource:
     def __init__(self, **kwargs):
@@ -18,11 +15,13 @@ class GoogleResource:
         self.engine = kwargs['engine']
         self.start = kwargs['start']
 
-    def to_pandas(self, results: list,results_keys: list) -> pd.DataFrame:
+    @staticmethod
+    def to_pandas(results: list, results_keys: list) -> pd.DataFrame:
         """
 
+        :param results_keys: keys of columns to include in dataframe
         :param results: List form of job results in dictionaries
-        :return: Pandas dataframe of job rsults
+        :return: Pandas dataframe of job results
         """
 
         results_dict = {x: [] for x in results_keys}
@@ -33,10 +32,11 @@ class GoogleResource:
 
         return pd.DataFrame(results_dict)
 
-    def query(self, q, n_search ,**kwargs) -> pd.DataFrame:
+    def query(self, q, n_search, **kwargs) -> pd.DataFrame:
         """
         """
 
+        global tstop, tstart
         params = {
             "q": q,
             "engine": self.engine,
@@ -47,7 +47,7 @@ class GoogleResource:
 
         n = 0
         jobs = []
-        results_keys = ['title','company_name','location','description']
+        results_keys = ['title', 'company_name', 'location', 'description']
         while n < n_search:
             tstart = time.time()
             results = GoogleSearch(params).get_dict()
@@ -63,11 +63,11 @@ class GoogleResource:
             for result in results["jobs_results"]:
                 result_na = {key: result[key] if key in result.keys() else '' for key in results_keys}
                 jobs.append(
-                    {   "title": result_na["title"],
-                        "company_name": result_na["company_name"],
-                        "location": result_na["location"],
-                        "description": result_na["description"]
-                    }
+                    {"title": result_na["title"],
+                     "company_name": result_na["company_name"],
+                     "location": result_na["location"],
+                     "description": result_na["description"]
+                     }
                 )
             tstop = time.time()
         df = self.to_pandas(jobs, results_keys)
@@ -77,11 +77,13 @@ class GoogleResource:
         )
         return df
 
+
 default_params = {
     'serp_api_key': SERP_API_KEY,
     'engine': ENGINE,
     'start': START
 }
+
 
 def resource(resource_id: str, **kwargs) -> object:
     """
@@ -97,14 +99,8 @@ def resource(resource_id: str, **kwargs) -> object:
         resource = GoogleResource
     else:
         raise ValueError(f"{resource_id} has not been implemented yet or does not exist.\n"
-            f"Allowable search engines: {list(RESOURCE_CLASSES.keys())}")
+                         )
 
     default_params.update(**kwargs)
 
     return resource(**default_params)
-
-google_jobs = resource('google')
-df = google_jobs.query(q = 'data scientist',
-                  location = 'New York, New York',
-                  n_search = 100)
-df.to_pickle('df.pkl')
